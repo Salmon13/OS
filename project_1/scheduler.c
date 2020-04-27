@@ -141,7 +141,6 @@ int proc_scheduling(PROC *P, int N, int policy) {
 		TIMEUNIT();
 
 		if (running != -1){
-
 #ifdef DEBUG
 			if(P[running].t_exec % 100 == 0)
 				fprintf(stderr, "%s left %d unit time\n", P[running].name, P[running].t_exec);
