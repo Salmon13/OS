@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <sys/types.h>
 #include <sys/syscall.h>
 #include <signal.h>
@@ -46,12 +47,10 @@ int proc_exec(PROC p) {
 		syscall(MY_TIME, &st_sec, &st_nsec);
 
 		for (int i = 0; i < p.t_exec; i++) {
-
 #ifdef DEBUG
 		if(i % 100 == 0)
 			fprintf(stderr, "%s runs %d unit time on cpu %d\n", p.name, i, sched_getcpu());
 #endif
-
 			TIMEUNIT();
 		}
 

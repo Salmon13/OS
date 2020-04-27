@@ -15,6 +15,7 @@ for i in "${policy[@]}"; do
 	done
 done
 
-sudo dmesg -c
+sudo dmesg -c > /dev/null
 sudo ./main < ${dir_input}/TIME_MEASUREMENT.txt > ${dir_output}/TIME_MEASUREMENT_stdout.txt
 dmesg | grep Project1 > ${dir_output}/TIME_MEASUREMENT_dmesg.txt
+echo "TIME_MEASUREMENT is done"

@@ -126,11 +126,12 @@ int proc_scheduling(PROC *P, int N, int policy) {
 		}
 
 		/* Select next running  process */
-		if (proc_next(P, N, policy) != -1) {
+		int next = proc_next(P, N, policy);
+		if (next != -1) {
 			/* Context switch */
 			if (running != next) {
 				proc_activity(P[running].pid, BLOCK);
-				kill(P[i].pid, SIGUSR1)
+				kill(P[next].pid, SIGUSR1);
 				proc_activity(P[next].pid, WAKEN);
 				running = next;
 				t_last = t_currunt;
