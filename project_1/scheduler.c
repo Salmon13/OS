@@ -88,7 +88,7 @@ int proc_scheduling(PROC *P, int N, int policy) {
 		P[i].pid = -1;
 
 	/* Set scheduler to another core */
-	proc_assign_cpu(getpid(), PARENT_CPU);
+	proc_assign_cpu(getpid(), SCHED_CPU);
 
 	/* Set high priority to scheduler */
 	proc_activity(getpid(), WAKEN);

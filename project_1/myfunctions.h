@@ -3,8 +3,8 @@
 
 #include <sys/types.h>
 
-#define CHILD_CPU	1
-#define PARENT_CPU	0
+#define PROC_CPU	1
+#define SCHED_CPU	0
 
 #define WAKEN 1
 #define BLOCK 0

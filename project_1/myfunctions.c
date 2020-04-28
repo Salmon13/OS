@@ -36,7 +36,7 @@ int proc_exec(PROC p) {
 	if (pid == 0) {
 
 		/* Assign child to CHILD core */
-		proc_assign_cpu(getpid(), CHILD_CPU);
+		proc_assign_cpu(getpid(), PROC_CPU);
 
 		/* Block on ready */
 		while(isBLOCK);
