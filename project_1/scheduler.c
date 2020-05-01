@@ -25,6 +25,22 @@ int cmp(const void *a, const void *b) {
 	return ((PROC *)a)->t_ready - ((PROC *)b)->t_ready;
 }
 
+/* Things for RR */
+int Q[20], head = 0, tail = 0, Q_cnt = 0;
+
+void Q_push(int index) {
+	Q[tail] = index;
+	tail = (tail + 1) % 20;
+	Q_cnt++;
+}
+
+int Q_pop() {
+	int ret = Q[head];
+	head = (head + 1) % 20;
+	Q_cnt--;
+	return ret;
+}
+
 /* Return index of next process  */
 int proc_next(PROC *P, int N, int policy) {
 
@@ -46,21 +62,19 @@ int proc_next(PROC *P, int N, int policy) {
 
 		case RR:
 			if (running == -1) {
-				for (int i = 0; i < N; i++) {
-					if (P[i].pid != -1 && P[i].t_exec > 0){
-						ret = i;
-						break;
-					}
+				if (Q_cnt != 0)
+					ret = Q_pop();
+
+			} else if ((t_currunt - t_last) % t_quantum == 0) {
+				if (Q_cnt == 0)
+					ret = running;
+				else {
+					ret = Q_pop();
+					Q_push(running);
 				}
-			}
-			/* Meets time quantum */
-			else if ((t_currunt - t_last) % t_quantum == 0)  {
-				ret = (running + 1) % N;
-				while (P[ret].pid == -1 || P[ret].t_exec == 0)
-					ret = (ret + 1) % N;
-			}
-			else
+			} else
 				ret = running;
+
 			break;
 
 		case SJF:
@@ -120,6 +134,8 @@ int proc_scheduling(PROC *P, int N, int policy) {
 
 				P[i].pid = proc_exec(P[i]);
 				proc_activity(P[i].pid, BLOCK);
+				if (policy == RR)
+					Q_push(i);
 
 			}
 
